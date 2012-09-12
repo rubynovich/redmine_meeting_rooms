@@ -1,0 +1,9 @@
+= error_messages_for 'meeting_room'
+
+.box.tabular
+  %p= f.text_field :name, :required => true, :size => 80
+  %p= f.text_field :capacity, :required => true, :size => 10
+  %p= f.check_box :is_closed, :label => t(:field_meeting_room_is_closed)
+  %p= f.text_field :start_time, :required => true, :size => 10
+  %p= f.text_field :end_time, :required => true, :size => 10  
+  

@@ -1,0 +1,4 @@
+# English strings go here for Rails i18n
+en:
+  label_reserve_meeting_room_plural: "Reserve meeting rooms"
+  label_meeting_room_plural: "Meeting rooms"

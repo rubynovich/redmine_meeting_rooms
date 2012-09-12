@@ -1,0 +1,39 @@
+%h2=l(:label_meeting_room_new)
+
+- labelled_form_for @meeting_room do |f|
+  = render :partial => 'form', :locals => {:f => f}
+  = submit_tag l(:button_create)
+
+%h2=l(:label_meeting_room_plural)
+
+- if @meeting_rooms.any?
+  %table.list
+    %thead
+      %tr
+        %th=l(:field_name)
+        %th=l(:field_capacity)
+        %th=l(:field_is_closed)      
+        %th=l(:field_start_time)
+        %th=l(:field_end_time)
+        %th
+    %tbody
+      - @meeting_rooms.each do |meeting_room|
+        %tr{:class=>cycle("odd", "even")}
+          %td
+            = link_to h(meeting_room.name), meeting_room_path(meeting_room)
+          %td{:align=>"center"}
+            = h(meeting_room.capacity)
+          %td{:align=>"center"}
+            = checked_image meeting_room.is_closed?
+          %td{:align=>"center"}
+            = format_time(meeting_room.start_time, false)
+          %td{:align=>"center"}
+            = format_time(meeting_room.end_time, false)
+          %td.buttons
+            = link_to l(:button_update), {:action => 'edit', :id => meeting_room.id}, :class => 'icon icon-edit'
+            = link_to(l(:button_delete), meeting_room_path(meeting_room), :method => :delete, :confirm => l(:text_are_you_sure), :class => 'icon icon-del')
+- else
+  %p.nodata
+    = l(:label_no_data)
+
+- html_title(l(:label_meeting_room_plural))

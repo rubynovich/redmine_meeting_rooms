@@ -1,0 +1,42 @@
+.contextual
+  = link_to l(:button_add), {:action => 'new'}, :class => 'icon icon-add'
+  = link_to l(:button_update), {:action => 'edit', :id => @meeting_room.id}, :class => 'icon icon-edit'
+  = link_to l(:button_delete), meeting_room_path(@meeting_room), :confirm => l(:text_are_you_sure), :method => :delete, :class => 'icon icon-del'
+
+%h2
+  = link_to l(:label_meeting_room_plural), meeting_rooms_path
+  &#187;
+  = h(@meeting_room.name)
+  = t(:message_meeting_room_capacity, :capacity => @meeting_room.capacity)
+
+.issue.details  
+  %table.attributes
+    %tr
+      %th=l(:field_start_time)+":"
+      %td= format_time(@meeting_room.start_time, false)
+      %th=l(:field_end_time)+":"
+      %td= format_time(@meeting_room.end_time, false)
+
+- if @meeting_room.reserve_meeting_rooms.any?  
+  -#%table.list
+    %thead
+      %tr
+        %th=l(:field_hr_candidate_fullname)
+        %th=l(:field_birth_date)
+        %th=l(:field_phone)
+        %th=l(:field_hr_job)
+        %th=l(:field_due_date)
+        %th
+    %tbody
+      - for hr_candidate in @hr_candidates
+        %tr{:class=>cycle("odd", "even")}
+          %td= link_to h(hr_candidate.name), hr_candidate_path(hr_candidate)
+          %td{:align=>"center"}= format_date(hr_candidate.birth_date)
+          %td{:align=>"center"}= h(hr_candidate.phone)
+          %td{:align=>"center"}= link_to h(hr_candidate.hr_job), hr_job_path(hr_candidate.hr_job)
+          %td{:align=>"center"}= format_date(hr_candidate.due_date)
+          %td.buttons
+            = link_to l(:button_update), {:controller => 'hr_candidates', :action => 'edit', :id => hr_candidate.id}, :class => 'icon icon-edit'
+            = link_to(l(:button_delete), hr_candidate_path(hr_candidate), :method => :delete, :confirm => l(:text_are_you_sure), :class => 'icon icon-del')
+
+- html_title(l(:label_meeting_room), h(@meeting_room.name))

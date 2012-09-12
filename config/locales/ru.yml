@@ -1,0 +1,10 @@
+# Russian strings go here for Rails i18n
+ru:
+  label_reserve_meeting_room_plural: "Бронь переговорок"
+  label_meeting_room_plural: "Переговорные комнаты"
+  label_meeting_room_new: "Добавить новую переговорную комнату"
+  field_capacity: "Вместительность"
+  field_meeting_room_is_closed: "Закрыта?"
+  field_start_time: "Время начала работы"
+  field_end_time: "Время окончания"
+  message_meeting_room_capacity: "(на %{capacity} человек)"

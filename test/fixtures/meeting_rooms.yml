@@ -1,0 +1,19 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+one:
+  id: 1
+  name: MyString
+  capacity: 1
+  is_closed: false
+  start_time: 2012-09-12 16:08:34
+  end_time: 2012-09-12 16:08:34
+  created_on: 2012-09-12 16:08:34
+  updated_on: 2012-09-12 16:08:34
+two:
+  id: 2
+  name: MyString
+  capacity: 1
+  is_closed: false
+  start_time: 2012-09-12 16:08:34
+  end_time: 2012-09-12 16:08:34
+  created_on: 2012-09-12 16:08:34
+  updated_on: 2012-09-12 16:08:34
