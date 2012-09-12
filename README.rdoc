@@ -1,3 +1,32 @@
-= meeting_rooms
+= Redmine meeting rooms
 
-Description goes here
+Redmine plugin for reserve meeting rooms.
+
+== Installation
+
+  cd vendor/plugins
+  git clone git://github.com/rubynovich/redmine_meeting_rooms.git
+  cd ../..
+  rake db:migrate:plugins RAILS_ENV=production  
+
+*or*
+
+  ./script/plugin -v install git://github.com/rubynovich/redmine_meeting_rooms.git
+  rake db:migrate:plugins RAILS_ENV=production
+
+== Update
+
+  cd vendor/plugins/redmine_meeting_rooms
+  git pull
+  cd ../../..
+  rake db:migrate:plugins RAILS_ENV=production  
+  
+*or*
+
+  ./script/plugin update
+  rake db:migrate:plugins RAILS_ENV=production    
+
+== Remove
+
+  rake db:migrate:plugin NAME=redmine_meeting_rooms VERSION=0 RAILS_ENV=production
+  ./script/plugin remove redmine_meeting_rooms
