@@ -6,7 +6,7 @@ class MeetingRoomsController < ApplicationController
 
   def index
     @meeting_room = MeetingRoom.new
-    @meeting_rooms = MeetingRoom.all
+    @meeting_rooms = MeetingRoom.all(:order => :capacity)
   end
   
   def new
