@@ -42,11 +42,13 @@ class MeetingRoomsController < ApplicationController
   end
   
   def destroy
-    MeetingRoom.find(params[:id]).destroy
-    flash[:notice] = l(:notice_successful_delete)
-    redirect_to :action => :index
-  rescue
-    flash[:error] = l(:error_unable_delete_meeting_room)
+    begin
+      MeetingRoom.find(params[:id]).destroy
+    rescue
+      flash[:error] = l(:error_unable_delete_meeting_room)
+    else
+      flash[:notice] = l(:notice_successful_delete)
+    end
     redirect_to :action => 'index'
   end  
 end
