@@ -1,0 +1,2 @@
+module MeetingRoomReservesHelper
+end

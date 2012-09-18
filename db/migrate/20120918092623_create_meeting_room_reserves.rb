@@ -1,10 +1,10 @@
-class CreateReserveMeetingRooms < ActiveRecord::Migration
+class CreateMeetingRoomReserves < ActiveRecord::Migration
   def self.up
-    create_table :reserve_meeting_rooms do |t|
+    create_table :meeting_room_reserves do |t|
       t.column :user_id, :integer
       t.column :subject, :string
       t.column :meeting_room_id, :integer
-      t.column :date_reserving, :date
+      t.column :reserve_on, :date
       t.column :start_time, :time
       t.column :end_time, :time
       t.column :created_on, :datetime
@@ -13,6 +13,6 @@ class CreateReserveMeetingRooms < ActiveRecord::Migration
   end
 
   def self.down
-    drop_table :reserve_meeting_rooms
+    drop_table :meeting_room_reserves
   end
 end
