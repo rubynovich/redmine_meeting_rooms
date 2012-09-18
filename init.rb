@@ -10,7 +10,7 @@ Redmine::Plugin.register :redmine_meeting_rooms do
 
   permission :view_reserve_meeting_rooms,  :reserve_meeting_rooms => [:index, :show, :edit, :new, :create, :update, :destroy], :public => true  
   
-  menu :top_menu, :reserve_meeting_rooms, {:controller => :reserve_meeting_rooms, :action => :index}, :caption => :label_reserve_meeting_room_plural
+  menu :top_menu, :meeting_room_reserves, {:controller => :meeting_room_reserves, :action => :index}, :caption => :label_meeting_room_reserve_plural
   
   menu :admin_menu, :meeting_rooms, 
     {:controller => :meeting_rooms, :action => :index},

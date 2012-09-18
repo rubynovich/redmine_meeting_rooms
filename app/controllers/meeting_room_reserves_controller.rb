@@ -1,18 +1,22 @@
 class MeetingRoomReservesController < ApplicationController
   unloadable
 
+  before_filter :author_required, :only => [:edit, :update, :destroy, :show]
+
   def index
     @meeting_room_reserve = MeetingRoomReserve.new(params[:meeting_room_reserve])    
+    @meeting_rooms = MeetingRoom.open.all(:order => :capacity)
   end
   
   def new
     @meeting_room_reserve = MeetingRoomReserve.new(params[:meeting_room_reserve])
+    @meeting_rooms = MeetingRoom.open.all(:order => :capacity)    
   end
   
   def create
-    @meeting_room_reserve = MeetingRoomReserve.new(params[:meeting_room_reserve])
+    @meeting_room_reserve = MeetingRoomReserve.new(params[:meeting_room_reserve].merge(:user_id => User.current))
     if @meeting_room_reserve.save
-      flash[:error] = l(:notice_successful_create)
+      flash[:notice] = l(:notice_successful_create)
       redirect_to :action => :index
     else
       render :action => :new
@@ -20,15 +24,15 @@ class MeetingRoomReservesController < ApplicationController
   end
   
   def edit
-    @meeting_room = MeetingRoomReserve.find(params[:id])  
+    @meeting_room_reserve = MeetingRoomReserve.find(params[:id])  
   end
   
   def show
-    @meeting_room = MeetingRoomReserve.find(params[:id])
+    @meeting_room_reserve = MeetingRoomReserve.find(params[:id])
   end
   
   def update
-    @meeting_room_reserve = MeetingRoom.find(params[:id])
+    @meeting_room_reserve = MeetingRoomReserve.find(params[:id])
     if @meeting_room_reserve.update_attributes(params[:meeting_room_reserve])
       flash[:notice] = l(:notice_successful_update)    
       redirect_to :action => :index
@@ -47,4 +51,9 @@ class MeetingRoomReservesController < ApplicationController
     end
     redirect_to :action => :index
   end
+  
+  private
+    def author_required
+      (render_403; return false) unless User.current == MeetingRoomReserve.find(params[:id]).user
+    end
 end

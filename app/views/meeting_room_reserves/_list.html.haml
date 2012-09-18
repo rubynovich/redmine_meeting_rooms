@@ -1,0 +1,13 @@
+- MeetingRoomReserve.actual.for_meeting_room(meeting_room_id).all(:order => :start_time).group_by(&:reserve_on).sort(&:reserve_on).each do |reserve_on, meeting_room_reserves|
+  .contextual
+    = link_to l(:button_add), {:action => 'new', :meeting_room_reserve => {:meeting_room_id => meeting_room_id, :reserve_on => reserve_on}}, :class => 'icon icon-add'
+  %h4= format_date(reserve_on)
+  - meeting_room_reserves.each do |meeting_room_reserve|
+    - if User.current == meeting_room_reserve.user
+      .contextual
+        = link_to l(:button_update), {:action => 'edit', :id => meeting_room_reserve.id}, :class => 'icon icon-edit'
+        = link_to l(:button_delete), {:action => :destroy, :id => meeting_room_reserve.id}, :confirm => l(:text_are_you_sure), :method => :delete, :class => 'icon icon-del'  
+    %p
+      = meeting_room_reserve.start_time.strftime("%H:%M") + "-" +  meeting_room_reserve.end_time.strftime("%H:%M") + ", "
+      = meeting_room_reserve.subject
+      = "(#{link_to_user meeting_room_reserve.user})"

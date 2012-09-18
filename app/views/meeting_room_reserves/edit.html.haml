@@ -1,0 +1,11 @@
+%h2
+  = link_to l(:label_meeting_room_reserve_plural), :action => :index
+  &#187;
+  = l(:label_meeting_room_reserve_edit)
+  &#187;
+  = h(@meeting_room_reserve.meeting_room.name)
+
+- labelled_form_for @meeting_room_reserve do |f|
+  = render :partial => 'form', :locals => {:f => f}
+  = submit_tag l(:button_save)
+

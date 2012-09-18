@@ -1,0 +1,16 @@
+%h2=l(:label_meeting_room_reserve_plural)
+
+- @meeting_rooms.each do |meeting_room|  
+  .contextual
+    = link_to l(:label_meeting_room_reserve_new), {:action => :new, :meeting_room_reserve => {:meeting_room_id => meeting_room.id}}, :class => 'icon icon-add'
+  %h3
+    = h(meeting_room.name)
+    = t(:message_meeting_room_capacity, :capacity => meeting_room.capacity)
+    
+  - if meeting_room.meeting_room_reserves.any?
+    = render :partial => 'list', :locals => {:meeting_room_id => meeting_room.id}
+  - else
+    %p.nodata
+      = l(:label_no_data)
+
+- html_title(l(:label_meeting_room_reserve_plural))
