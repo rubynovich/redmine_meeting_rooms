@@ -5,6 +5,18 @@
   &#187;
   = h(@meeting_room_reserve.meeting_room.name)
 
+.issue.details  
+  %table.attributes
+    %tr
+      %th=l(:field_start_time)+":"
+      %td= format_time(@meeting_room_reserve.meeting_room.start_time, false)
+      %th=l(:field_end_time)+":"
+      %td= format_time(@meeting_room_reserve.meeting_room.end_time, false)
+
+- if @meeting_room_reserve.meeting_room.meeting_room_reserves.any?
+  - content_for :sidebar do
+    = render :partial => 'list', :locals => {:meeting_room_id => @meeting_room_reserve.meeting_room_id}
+
 - labelled_form_for @meeting_room_reserve do |f|
   = render :partial => 'form', :locals => {:f => f}
   = submit_tag l(:button_create)

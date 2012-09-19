@@ -1,7 +1,8 @@
-- MeetingRoomReserve.actual.for_meeting_room(meeting_room_id).all(:order => :start_time).group_by(&:reserve_on).sort(&:reserve_on).each do |reserve_on, meeting_room_reserves|
+- MeetingRoomReserve.actual.for_meeting_room(meeting_room_id).all(:order => :start_time).group_by(&:reserve_on).sort_by{ |key, value| key }.each do |reserve_on, meeting_room_reserves|
   .contextual
     = link_to l(:button_add), {:action => 'new', :meeting_room_reserve => {:meeting_room_id => meeting_room_id, :reserve_on => reserve_on}}, :class => 'icon icon-add'
-  %h4= format_date(reserve_on)
+  %h4
+    = format_date(reserve_on) + ", " + t("date.abbr_day_names")[reserve_on.wday]
   - meeting_room_reserves.each do |meeting_room_reserve|
     - if User.current == meeting_room_reserve.user
       .contextual
