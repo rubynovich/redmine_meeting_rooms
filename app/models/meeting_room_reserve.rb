@@ -11,14 +11,14 @@ class MeetingRoomReserve < ActiveRecord::Base
     
   validate :check_start_time, :check_end_time, :check_reserve_on
   
-  named_scope :actual, lambda{
+  named_scope :actual_day, lambda{
     date = Date.today
     time = Time.now
     {
       :conditions => [
-        "reserve_on > :date OR (reserve_on = :date AND start_time > :time)", {
+        "reserve_on >= :date", {
           :date => date, 
-          :time => time.strftime("%H:%M:%S")}
+          :time => time}
         ]
     }
   }
@@ -62,7 +62,7 @@ class MeetingRoomReserve < ActiveRecord::Base
   end
   
   def check_reserve_on
-    if self.reserve_on < Rate.today
+    if self.reserve_on < Date.today
       errors.add :reserve_on, :invalid
     end    
   end

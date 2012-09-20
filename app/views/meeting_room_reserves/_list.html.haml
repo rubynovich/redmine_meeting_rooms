@@ -1,4 +1,4 @@
-- MeetingRoomReserve.actual.for_meeting_room(meeting_room_id).all(:order => :start_time).group_by(&:reserve_on).sort_by{ |key, value| key }.each do |reserve_on, meeting_room_reserves|
+- MeetingRoomReserve.actual_day.for_meeting_room(meeting_room_id).all(:order => :start_time).group_by(&:reserve_on).sort_by{ |key, value| key }.each do |reserve_on, meeting_room_reserves|
   .contextual
     = link_to l(:button_add), {:action => 'new', :meeting_room_reserve => {:meeting_room_id => meeting_room_id, :reserve_on => reserve_on}}, :class => 'icon icon-add'
   %h4
