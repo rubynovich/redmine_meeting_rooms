@@ -5,7 +5,7 @@ class MeetingRoom < ActiveRecord::Base
   validates_uniqueness_of :name
       
   def meeting_room_reserves
-    MeetingRoomReserve.for_meeting_room(self.id).actual
+    MeetingRoomReserve.for_meeting_room(self.id).actual_day
   end
   
   named_scope :open, lambda{
