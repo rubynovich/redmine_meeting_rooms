@@ -9,7 +9,9 @@ class MeetingRoomReserve < ActiveRecord::Base
   validates_associated :user, :meeting_room
   validates_uniqueness_of :reserve_on, :scope => [:start_time, :end_time]
     
-  validate :check_start_time, :check_end_time
+  validate :check_start_time
+  validate :check_end_time
+  validate :check_reserve_on
   
   named_scope :actual, lambda{
     date = Date.today
@@ -54,9 +56,16 @@ class MeetingRoomReserve < ActiveRecord::Base
   def check_end_time
     if self.class.for_meeting_room(self.meeting_room_id).
       included(self.reserve_on, self.end_time).all.any? ||
-      self.end_time > self.meeting_room.end_time
+      self.end_time > self.meeting_room.end_time ||
+      self.end_time < self.start_time
       
       errors.add :end_time, :invalid
     end  
+  end
+  
+  def check_reserve_on
+    if self.reserve_on < Rate.today
+      errors.add :reserve_on, :invalid
+    end    
   end
 end
