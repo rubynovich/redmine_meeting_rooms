@@ -2,3 +2,16 @@
 en:
   label_reserve_meeting_room_plural: "Reserve meeting rooms"
   label_meeting_room_plural: "Meeting rooms"
+  
+  label_meeting_room_reserve_plural: "Reserve meeting rooms"
+  label_meeting_room_reserve_new: "New Reserve meeting room"
+  label_meeting_room_reserve_edit: "Edit Reserve"
+  label_meeting_room_plural: "Meeting rooms"
+  label_meeting_room_new: "Add new Reserve meeting room"
+  field_capacity: "Capacity"
+  field_meeting_room_is_closed: "Closed?"
+  field_meeting_room: "Meeting room"
+  field_reserve_on: "Reserve on"
+  field_start_time: "Start time"
+  field_end_time: "End time"
+  message_meeting_room_capacity: "(for %{capacity} people)"
