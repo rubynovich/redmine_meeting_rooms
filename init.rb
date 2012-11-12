@@ -1,10 +1,10 @@
 require 'redmine'
 
 Redmine::Plugin.register :redmine_meeting_rooms do
-  name 'Redmine Meeting Rooms plugin'
+  name 'Бронирование переговорных'
   author 'Roman Shipiev'
-  description 'Redmine plugin for reserve of meeting rooms'
-  version '0.0.1'
+  description 'В панели администратора вводится перечень переговорных комнат, а в режиме пользователя их уже можно бронировать на определенное время. Удалять и править бронь может только автор брони. Отображаются только актуальные брони.'
+  version '0.0.2'
   url 'https://github.com/rubynovich/redmine_meeting_rooms'
   author_url 'http://roman.shipiev.me/'
 

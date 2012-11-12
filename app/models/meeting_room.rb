@@ -8,11 +8,15 @@ class MeetingRoom < ActiveRecord::Base
     MeetingRoomReserve.for_meeting_room(self.id).actual_day
   end
   
-  named_scope :open, lambda{
-    {
-      :conditions => {
-        :is_closed => false
+  if Rails::VERSION::MAJOR >= 3    
+    scope :open, where(:is_closed => false)
+  else
+    named_scope :open, lambda{
+      {
+        :conditions => {
+          :is_closed => false
+        }
       }
     }
-  }
+  end
 end
