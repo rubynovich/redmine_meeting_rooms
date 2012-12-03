@@ -6,6 +6,9 @@
   %p
     = f.text_field :reserve_on, :required => true, :size => 10
     = calendar_for('meeting_room_reserve_reserve_on')
-  %p= f.text_field :start_time, :required => true, :size => 10
-  %p= f.text_field :end_time, :required => true, :size => 10  
-  
+  %p
+    = f.label :start_time  
+    = f.time_select :start_time, :value => Time.now, :minute_step => 15
+  %p
+    = f.label :end_time  
+    = f.time_select :end_time, :value => Time.now, :minute_step => 15
