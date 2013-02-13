@@ -1,10 +1,10 @@
 # English strings go here for Rails i18n
 en:
-  label_meeting_room_reserve_plural: "Meeting rooms"
-  label_meeting_room_reserve_new: "New reserve meeting room"
-  label_meeting_room_reserve_edit: "Edit reserve"
+  label_meeting_room_reserve_plural: "Reserve meeting rooms"
+  label_meeting_room_reserve_new: "New Reserve meeting room"
+  label_meeting_room_reserve_edit: "Edit Reserve"
   label_meeting_room_plural: "Meeting rooms"
-  label_meeting_room_new: "Add new reserve meeting room"
+  label_meeting_room_new: "Add new Reserve meeting room"
   field_capacity: "Capacity"
   field_meeting_room_is_closed: "Closed?"
   field_meeting_room: "Meeting room"
