@@ -7,8 +7,8 @@
     - if User.current == meeting_room_reserve.user
       .contextual
         = link_to l(:button_update), {:action => 'edit', :id => meeting_room_reserve.id}, :class => 'icon icon-edit'
-        = link_to l(:button_delete), {:action => :destroy, :id => meeting_room_reserve.id}, :confirm => l(:text_are_you_sure), :method => :delete, :class => 'icon icon-del'  
+        = link_to l(:button_delete), {:action => :destroy, :id => meeting_room_reserve.id}, :confirm => l(:text_are_you_sure), :method => :delete, :class => 'icon icon-del'
     %p
       = meeting_room_reserve.start_time.strftime("%H:%M") + "-" +  meeting_room_reserve.end_time.strftime("%H:%M") + ", "
       = meeting_room_reserve.subject
-      = "(#{link_to_user meeting_room_reserve.user})"
+      = "(#{link_to_user meeting_room_reserve.user})".html_safe
