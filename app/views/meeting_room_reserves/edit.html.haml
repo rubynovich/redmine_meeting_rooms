@@ -5,7 +5,7 @@
   &#187;
   = h(@meeting_room_reserve.meeting_room.name)
 
-.issue.details  
+.issue.details
   %table.attributes
     %tr
       %th=l(:field_start_time)+":"
@@ -16,8 +16,8 @@
 - if @meeting_room_reserve.meeting_room.meeting_room_reserves.any?
   - content_for :sidebar do
     = render :partial => 'list', :locals => {:meeting_room_id => @meeting_room_reserve.meeting_room_id}
-  
-- labelled_form_for @meeting_room_reserve do |f|
+
+- form = labelled_form_for @meeting_room_reserve do |f|
   = render :partial => 'form', :locals => {:f => f}
   = submit_tag l(:button_save)
-
+= form if Rails::VERSION::MAJOR >= 3
