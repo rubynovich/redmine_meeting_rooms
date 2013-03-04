@@ -1,6 +1,6 @@
 # Russian strings go here for Rails i18n
 ru:
-  permission_vew_meeting_room_reserves: "Просмотр брони переговорных"
+  permission_view_meeting_room_reserves: "Просмотр брони переговорных"
   label_meeting_room_reserve_plural: "Переговорные"
   label_meeting_room_reserve_new: "Забронировать переговорную"
   label_meeting_room_reserve_edit: "Поправить бронирование"
