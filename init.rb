@@ -8,9 +8,9 @@ Redmine::Plugin.register :redmine_meeting_rooms do
   url 'https://github.com/rubynovich/redmine_meeting_rooms'
   author_url 'http://roman.shipiev.me/'
 
-  permission :view_reserve_meeting_rooms,  :reserve_meeting_rooms => [:index, :show, :edit, :new, :create, :update, :destroy], :public => true
+  permission :view_meeting_room_reserves, :meeting_room_reserves => [:index, :show]
 
-  menu :top_menu, :meeting_room_reserves, {:controller => :meeting_room_reserves, :action => :index}, :caption => :label_meeting_room_reserve_plural, :if => Proc.new{ User.current.logged? }
+  menu :top_menu, :meeting_room_reserves, {:controller => :meeting_room_reserves, :action => :index}, :caption => :label_meeting_room_reserve_plural, :if => Proc.new{ User.current.allowed_to?({:controller => :meeting_room_reserves, :action => :index}, nil, {:global => true}) }
 
   menu :admin_menu, :meeting_rooms,
     {:controller => :meeting_rooms, :action => :index},
