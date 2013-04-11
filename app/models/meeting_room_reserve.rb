@@ -64,7 +64,7 @@ class MeetingRoomReserve < ActiveRecord::Base
 
   def check_start_time
     if self.class.for_meeting_room(self.meeting_room_id).
-      included(self.reserve_on, self.start_time).all.any? ||
+      included(self.reserve_on, self.start_time).where("id <> ?", self.id).all.any? ||
       self.start_time.seconds_since_midnight < self.meeting_room.start_time.seconds_since_midnight
 
       errors.add :start_time, :invalid
@@ -73,7 +73,7 @@ class MeetingRoomReserve < ActiveRecord::Base
 
   def check_end_time
     if self.class.for_meeting_room(self.meeting_room_id).
-      included(self.reserve_on, self.end_time).all.any? ||
+      included(self.reserve_on, self.end_time).where("id <> ?", self.id).all.any? ||
       self.end_time.seconds_since_midnight > self.meeting_room.end_time.seconds_since_midnight ||
       self.end_time.seconds_since_midnight < self.start_time.seconds_since_midnight
 
