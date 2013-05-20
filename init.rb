@@ -3,9 +3,9 @@ require 'redmine'
 Redmine::Plugin.register :redmine_meeting_rooms do
   name 'Reserve meeting rooms'
   author 'Roman Shipiev'
-  description 'Redmine plugin for reserve meeting rooms'
+  description 'Reserving meeting rooms'
   version '0.0.2'
-  url 'https://github.com/rubynovich/redmine_meeting_rooms'
+  url 'https://bitbucket.org/rubynovich/redmine_meeting_rooms'
   author_url 'http://roman.shipiev.me/'
 
   permission :view_meeting_room_reserves, :meeting_room_reserves => [:index, :show]
