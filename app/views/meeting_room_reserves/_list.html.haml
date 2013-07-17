@@ -1,11 +1,21 @@
+:css
+  .reserve_controls {
+    float: right;
+    white-space: nowrap;
+    line-height: 1.4em;
+    margin-top: 5px;
+    padding-left: 10px;
+    font-size: 0.9em;
+  }
+
 - MeetingRoomReserve.actual_day.for_meeting_room(meeting_room_id).all(:order => :start_time).group_by(&:reserve_on).sort_by{ |key, value| key }.each do |reserve_on, meeting_room_reserves|
-  .contextual
+  .reserve_controls
     = link_to l(:button_add), {action: 'new', meeting_room_reserve: {meeting_room_id: meeting_room_id, reserve_on: reserve_on}}, class: 'icon icon-add'
   %h4
     = format_date(reserve_on) + ", " + t("date.abbr_day_names")[reserve_on.wday]
   - meeting_room_reserves.each do |meeting_room_reserve|
     - if User.current == meeting_room_reserve.user
-      .contextual
+      .reserve_controls
         = link_to l(:button_update), {action: 'edit', id: meeting_room_reserve.id}, class: 'icon icon-edit'
         = link_to l(:button_copy), {action: 'new', meeting_room_reserve: {meeting_room_id: meeting_room_id, reserve_on: reserve_on, subject: meeting_room_reserve.subject, start_time: meeting_room_reserve.start_time, end_time: meeting_room_reserve.end_time}}, class: 'icon icon-copy'
         = link_to l(:button_delete), {action: 'destroy', id: meeting_room_reserve.id}, confirm: l(:text_are_you_sure), method: 'delete', class: 'icon icon-del'
