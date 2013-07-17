@@ -8,11 +8,11 @@ class MeetingRoomReservesController < ApplicationController
   def index
     @meeting_rooms = MeetingRoom.open.all(:order => :capacity)
   end
-  
+
   def new
-    @meeting_rooms = MeetingRoom.open.all(:order => :capacity)    
+    @meeting_rooms = MeetingRoom.open.all(:order => :capacity)
   end
-  
+
   def create
     @meeting_room_reserve.user = User.current
     if @meeting_room_reserve.save
@@ -22,22 +22,22 @@ class MeetingRoomReservesController < ApplicationController
       render :action => :new
     end
   end
-  
+
   def edit
   end
-  
+
   def show
   end
-  
+
   def update
     if @meeting_room_reserve.update_attributes(params[:meeting_room_reserve])
-      flash[:notice] = l(:notice_successful_update)    
+      flash[:notice] = l(:notice_successful_update)
       redirect_to :action => :index
     else
       render :action => :edit
-    end  
+    end
   end
-  
+
   def destroy
     begin
       @meeting_room_reserve.destroy
@@ -48,17 +48,17 @@ class MeetingRoomReservesController < ApplicationController
     end
     redirect_to :action => :index
   end
-  
+
   private
     def author_required
       (render_403; return false) unless User.current == MeetingRoomReserve.find(params[:id]).user
     end
-    
+
     def new_meeting_room_reserve
-      @meeting_room_reserve = MeetingRoomReserve.new(params[:meeting_room_reserve])    
+      @meeting_room_reserve = MeetingRoomReserve.new(params[:meeting_room_reserve])
     end
-    
+
     def find_meeting_room_reserve
-      @meeting_room_reserve = MeetingRoomReserve.find(params[:id])    
-    end    
+      @meeting_room_reserve = MeetingRoomReserve.find(params[:id])
+    end
 end
