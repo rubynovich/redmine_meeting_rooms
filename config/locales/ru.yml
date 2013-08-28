@@ -10,6 +10,6 @@ ru:
   field_meeting_room_is_closed: "Закрыта?"
   field_meeting_room: "Переговорная комната"
   field_reserve_on: "Дата бронирования"
-  field_start_time: "Время начала работы"
-  field_end_time: "Время окончания работы"
+  field_start_time: "Время начала"
+  field_end_time: "Время окончания"
   message_meeting_room_capacity: "(на %{capacity} человек)"
