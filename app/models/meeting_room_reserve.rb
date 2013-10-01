@@ -7,7 +7,7 @@ class MeetingRoomReserve < ActiveRecord::Base
   validates_presence_of :user_id, :meeting_room_id, :subject,
     :reserve_on, :start_time, :end_time
   validates_associated :user, :meeting_room
-  validates_uniqueness_of :reserve_on, :scope => [:start_time, :end_time, :meeting_room_id]
+  validates_uniqueness_of :reserve_on, scope: [:start_time, :end_time, :meeting_room_id]
 
   validate :check_start_time, :check_end_time, :check_reserve_on
 
@@ -15,18 +15,18 @@ class MeetingRoomReserve < ActiveRecord::Base
     scope :actual_day, lambda{
       date = Date.today
       time = Time.now
-      where("reserve_on > :date OR reserve_on = :date AND end_time > :time", {:date => date, :time => time})
+      where("DATE(reserve_on) > DATE(:date) OR DATE(reserve_on) = DATE(:date) AND TIME(end_time) > TIME(:time)", {date: date, time: time})
     }
 
     scope :included, lambda{ |date, time|
       if date.present? && time.present?
-        where("reserve_on = :date AND start_time < :time AND end_time > :time", {:date => date, :time => time})
+        where("DATE(reserve_on) = DATE(:date) AND TIME(start_time) < TIME(:time) AND TIME(end_time) > TIME(:time)", {date: date, time: time})
       end
     }
 
     scope :for_meeting_room, lambda{ |meeting_room_id|
       if meeting_room_id.present?
-        where(:meeting_room_id => meeting_room_id)
+        where(meeting_room_id: meeting_room_id)
       end
     }
   else
