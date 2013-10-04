@@ -4,7 +4,7 @@ Redmine::Plugin.register :redmine_meeting_rooms do
   name 'Reserve meeting rooms'
   author 'Roman Shipiev'
   description 'Reserving meeting rooms'
-  version '0.0.2'
+  version '0.1.0'
   url 'https://bitbucket.org/rubynovich/redmine_meeting_rooms'
   author_url 'http://roman.shipiev.me/'
 
