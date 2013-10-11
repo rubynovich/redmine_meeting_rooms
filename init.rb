@@ -10,9 +10,26 @@ Redmine::Plugin.register :redmine_meeting_rooms do
 
   permission :view_meeting_room_reserves, :meeting_room_reserves => [:index, :show]
 
-  menu :top_menu, :meeting_room_reserves, {:controller => :meeting_room_reserves, :action => :index}, :caption => :label_meeting_room_reserve_plural, :if => Proc.new{ User.current.allowed_to?({:controller => :meeting_room_reserves, :action => :index}, nil, {:global => true}) }
+  Redmine::MenuManager.map :top_menu do |menu| 
 
-  menu :admin_menu, :meeting_rooms,
-    {:controller => :meeting_rooms, :action => :index},
-    :caption => :label_meeting_room_plural, :html => {:class => :enumerations}
+    unless menu.exists?(:internal_intercourse)
+      menu.push(:internal_intercourse, "#", 
+                { :after => :public_intercourse,
+                  :parent => :top_menu, 
+                  :caption => :label_internal_intercourse_menu
+                })
+    end
+
+    menu.push( :meeting_room_reserves, {:controller => :meeting_room_reserves, :action => :index},
+               { :parent => :internal_intercourse,
+                 :caption => :label_meeting_room_reserve_plural, 
+                 :if => Proc.new{ User.current.allowed_to?({:controller => :meeting_room_reserves, :action => :index}, nil, {:global => true}) } 
+               })
+
+  end
+
+  menu(:admin_menu, :meeting_rooms, 
+       {:controller => :meeting_rooms, :action => :index},
+       :caption => :label_meeting_room_plural, 
+       :html => {:class => :enumerations} )
 end
