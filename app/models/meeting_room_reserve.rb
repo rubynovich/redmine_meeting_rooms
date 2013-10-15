@@ -8,8 +8,16 @@ class MeetingRoomReserve < ActiveRecord::Base
     :reserve_on, :start_time, :end_time
   validates_associated :user, :meeting_room
   validates_uniqueness_of :reserve_on, scope: [:start_time, :end_time, :meeting_room_id]
+  validates_uniqueness_of :start_time, scope: [:reserve_on, :meeting_room_id]
+  validates_uniqueness_of :end_time, scope: [:reserve_on, :meeting_room_id]
 
-  validate :check_start_time, :check_end_time, :check_reserve_on
+  validate :check_start_time_create, on: :create
+  validate :check_end_time_create, on: :create
+  validate :check_start_time_update, on: :update
+  validate :check_end_time_update, on: :update
+  validate :check_meeting_room_hours
+
+  validate :check_reserve_on, if: -> {self.reserve_on && (self.reserve_on < Date.today)}
 
   if Rails::VERSION::MAJOR >= 3
     scope :actual_day, lambda{
@@ -20,7 +28,7 @@ class MeetingRoomReserve < ActiveRecord::Base
 
     scope :included, lambda{ |date, time|
       if date.present? && time.present?
-        where("DATE(reserve_on) = DATE(:date) AND TIME(start_time) < TIME(:time) AND TIME(end_time) > TIME(:time)", {date: date, time: time})
+        where(reserve_on: date).where("TIME(start_time) < TIME(:time) AND TIME(:time) < TIME(end_time)", time: time)
       end
     }
 
@@ -62,28 +70,42 @@ class MeetingRoomReserve < ActiveRecord::Base
     }
   end
 
-  def check_start_time
-    if self.class.for_meeting_room(self.meeting_room_id).
-      included(self.reserve_on, self.start_time).where("id <> ?", self.id).all.any? ||
-      self.start_time.seconds_since_midnight < self.meeting_room.start_time.seconds_since_midnight
+private
+  def include_time(time)
+    (time.seconds_since_midnight < self.meeting_room.start_time.seconds_since_midnight) ||
+      (time.seconds_since_midnight > self.meeting_room.end_time.seconds_since_midnight)
+  end
 
+  def check_meeting_room_hours
+    errors.add :start_time, :invalid if include_time(self.start_time)
+    errors.add :end_time, :invalid if include_time(self.end_time)
+  end
+
+  def check_start_time_create
+    if self.class.for_meeting_room(self.meeting_room_id).included(self.reserve_on, self.start_time).present?
       errors.add :start_time, :invalid
     end
   end
 
-  def check_end_time
-    if self.class.for_meeting_room(self.meeting_room_id).
-      included(self.reserve_on, self.end_time).where("id <> ?", self.id).all.any? ||
-      self.end_time.seconds_since_midnight > self.meeting_room.end_time.seconds_since_midnight ||
-      self.end_time.seconds_since_midnight < self.start_time.seconds_since_midnight
+  def check_end_time_create
+    if self.class.for_meeting_room(self.meeting_room_id).included(self.reserve_on, self.end_time).present?
+      errors.add :end_time, :invalid
+    end
+  end
 
+  def check_start_time_update
+    if self.class.for_meeting_room(self.meeting_room_id).included(self.reserve_on, self.start_time).where("id <> ?", self.id).present?
+      errors.add :start_time, :invalid
+    end
+  end
+
+  def check_end_time_update
+    if self.class.for_meeting_room(self.meeting_room_id).included(self.reserve_on, self.end_time).where("id <> ?", self.id).present?
       errors.add :end_time, :invalid
     end
   end
 
   def check_reserve_on
-    if self.reserve_on.blank? || self.reserve_on < Date.today
-      errors.add :reserve_on, :invalid
-    end
+    errors.add :reserve_on, :invalid
   end
 end
