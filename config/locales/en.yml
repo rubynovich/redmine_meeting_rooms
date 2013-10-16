@@ -1,8 +1,5 @@
 # English strings go here for Rails i18n
 en:
-
-  label_internal_intercourse_menu: Internal intercourse
-
   permission_view_meeting_room_reserves: "View meeting room reserves"
   label_meeting_room_reserve_plural: "Meeting rooms"
   label_meeting_room_reserve_new: "New reserve meeting room"

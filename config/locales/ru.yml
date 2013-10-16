@@ -1,8 +1,5 @@
 # Russian strings go here for Rails i18n
 ru:
-
-  label_internal_intercourse_menu: Внутреннее взаимодействие
-
   permission_view_meeting_room_reserves: "Просмотр брони переговорных"
   label_meeting_room_reserve_plural: "Переговорные"
   label_meeting_room_reserve_new: "Забронировать переговорную"
