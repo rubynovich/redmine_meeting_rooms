@@ -12,20 +12,21 @@ Redmine::Plugin.register :redmine_meeting_rooms do
 
   Redmine::MenuManager.map :top_menu do |menu|
 
-  unless menu.exists?(:internal_intercourse)
-    menu.push( :internal_intercourse, "#",
-               after: :public_intercourse,
-               parent: :top_menu,
-               caption: :label_internal_intercourse_menu
+    unless menu.exists?(:internal_intercourse)
+      menu.push( :internal_intercourse, "#",
+                 after: :public_intercourse,
+                 parent: :top_menu,
+                 caption: :label_internal_intercourse_menu
+               )
+    end
+
+    parent = menu.exists?(:internal_intercourse) ? :internal_intercourse : :top_menu
+    menu.push( :meeting_room_reserves, {controller: :meeting_room_reserves, action: :index},
+               parent: parent,
+               caption: :label_meeting_room_reserve_plural,
+               if: ->{ User.current.allowed_to?(:view_meeting_room_reserves, nil, global: true) }
              )
   end
-
-  parent = menu.exists?(:internal_intercourse) ? :internal_intercourse : :top_menu
-  menu.push( :meeting_room_reserves, {controller: :meeting_room_reserves, action: :index},
-             parent: parent,
-             caption: :label_meeting_room_reserve_plural,
-             if: ->{ User.current.allowed_to?(:view_meeting_room_reserves, nil, global: true) }
-           )
 
   menu(:admin_menu, :meeting_rooms,
        {controller: :meeting_rooms, action: :index},
