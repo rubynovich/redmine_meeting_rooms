@@ -4,6 +4,7 @@ class MeetingRoomReservesController < ApplicationController
   before_filter :author_required, :only => [:edit, :update, :destroy, :show]
   before_filter :new_meeting_room_reserve, :only => [:new, :create]
   before_filter :find_meeting_room_reserve, :only => [:edit, :show, :update, :destroy]
+  before_filter :required_view_permission, only: [:index, :show]
 
   def index
     @meeting_rooms = MeetingRoom.open.all(:order => :capacity)
@@ -52,6 +53,10 @@ class MeetingRoomReservesController < ApplicationController
   private
     def author_required
       (render_403; return false) unless User.current == MeetingRoomReserve.find(params[:id]).user
+    end
+
+    def required_view_permission
+      (render_403; return false) unless User.current.allowed_to?(:view_meeting_room_reserves, nil, global: true)
     end
 
     def new_meeting_room_reserve
