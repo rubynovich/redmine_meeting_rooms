@@ -23,12 +23,28 @@ class MeetingRoomReserve < ActiveRecord::Base
     scope :actual_day, lambda{
       date = Date.today
       time = Time.now
-      where("DATE(reserve_on) > DATE(:date) OR DATE(reserve_on) = DATE(:date) AND TIME(end_time) > TIME(:time)", {date: date, time: time})
+      where(
+        case connection.adapter_name.downcase.to_sym
+          when :mysql
+            "DATE(reserve_on) > DATE(:date) OR DATE(reserve_on) = DATE(:date) AND TIME(end_time) > TIME(:time)"
+          when :postgresql
+            "DATE(reserve_on) > DATE(:date) OR DATE(reserve_on) = DATE(:date) AND (end_time > (time :time))"
+         else
+           raise NotImplementedError, "Unknown adapter type '#{connection.adapter_name.downcase.to_sym}'"
+        end.to_s, {date: date, time: time})
     }
 
     scope :included, lambda{ |date, time|
       if date.present? && time.present?
-        where(reserve_on: date).where("TIME(start_time) < TIME(:time) AND TIME(:time) < TIME(end_time)", time: time)
+        where(reserve_on: date).where(
+            case connection.adapter_name.downcase.to_sym
+              when :mysql
+                "TIME(start_time) < TIME(:time) AND TIME(:time) < TIME(end_time)"
+              when :postgresql
+                "start_time < (time :time) AND (time :time) < end_time "
+              else
+                raise NotImplementedError, "Unknown adapter type '#{connection.adapter_name.downcase.to_sym}'"
+            end.to_s, time: time)
       end
     }
 
